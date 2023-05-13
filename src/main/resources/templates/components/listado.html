@@ -1,0 +1,5 @@
+<th:block th:fragment="ausencia_elementos">
+    <div th:if="${entities==null || entities.size()==0}" class="alert alert-info mt-3" role="alert">
+        No hay <span th:text="${nameEntity}"></span>s para mostrar
+    </div>
+</th:block>

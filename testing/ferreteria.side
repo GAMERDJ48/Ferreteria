@@ -1,0 +1,21 @@
+{
+  "id": "f40d9108-ca77-4b7f-802d-c975198b5981",
+  "version": "2.0",
+  "name": "ferreteria",
+  "url": "",
+  "tests": [{
+    "id": "c3312d69-bb7e-4627-8cc2-a65426cf1fcd",
+    "name": "boton_crear_articulo",
+    "commands": []
+  }],
+  "suites": [{
+    "id": "7de492b5-0d2d-4777-b7ed-fd794fbb2b61",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["c3312d69-bb7e-4627-8cc2-a65426cf1fcd"]
+  }],
+  "urls": [],
+  "plugins": []
+}

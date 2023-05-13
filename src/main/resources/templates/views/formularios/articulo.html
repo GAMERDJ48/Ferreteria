@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <th:block th:replace="components/header.html :: header"></th:block>
+    <title>Articulo</title>
+</head>
+
+<body>
+<nav th:replace="components/navbar.html :: nav_bar"></nav>
+<div class="container mt-3">
+    <div class="card">
+        <th:block th:replace="components/formulario.html :: titulo('Formulario de Articulo')"></th:block>
+        <div class="card-body">
+            <table th:class="${table}">
+                <thead th:class="${table_head}">
+                <tr>
+                    <th>Codigo</th>
+                    <th>Nombre</th>
+                    <th>Precio</th>
+                    <th>Moneda</th>
+                    <th>Tipo</th>
+                    <th>Proveedor</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <form id="formulario" th:action="@{/{entity}/formulario/{id}(id=${object.id},retorno=${retorno},nameEntity=${nameEntity},entity=${nameEntity})}" method="post" th:object="${object}" enctype="multipart/form-data" class="needs-validation">
+                        <td>
+                            <div th:replace="components/formulario.html :: input_number_int('codigo', *{codigo})"></div>
+                        </td>
+                        <td>
+                            <div th:replace="components/formulario.html :: input_text('nombre', *{nombre})"></div>
+                        </td>
+                        <td>
+                            <div th:replace="components/formulario.html :: input_number_float('precio', *{precio})"></div>
+                        </td>
+                        <td>
+                            <div th:replace="components/formulario.html :: selectEnum('moneda',*{moneda}, ${monedas}, ${false})"></div>
+                        </td>
+                        <td>
+                            <div th:replace="components/formulario.html :: selectList('tipoArticulo', *{tipoArticulo},${tiposArticulos}, ${true})"></div>
+                        </td>
+                        <td>
+                            <div th:replace="components/formulario.html :: selectEnum('proveedor', *{proveedor},${proveedores}, ${true})"></div>
+                        </td>
+                        <td th:replace="components/formulario.html :: formulario_boton_agregar"></td>
+                    </form>
+                </tr>
+                <tr th:each="object: ${entities}">
+                    <td th:text="${object.codigo}"></td>
+                    <td th:text="${object.nombre}"></td>
+                    <td th:text="${object.precio}"></td>
+                    <td th:text="${object.moneda}"></td>
+                    <td th:text="${object.tipoArticulo}"></td>
+                    <td th:text="${object.proveedor}"></td>
+                    <td>
+                        <a th:replace="components/formulario.html :: formulario_eliminar"></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+            <div class="card-body">
+                <div class="row m-3">
+                    <div class="col-md-6">
+                        <button th:replace="components/modal.html :: boton"></button>
+                    </div>
+                    <div class="col-md-6" th:if="${object.id==0}">
+                        <a th:replace="components/formulario.html :: guardar"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div th:replace="components/modal.html :: modal"></div>
+<th:block th:replace="components/scripts.html :: script_fragment"></th:block>
+<th:block th:replace="components/toast.html :: toast"></th:block>
+
+</body>
+
+</html>

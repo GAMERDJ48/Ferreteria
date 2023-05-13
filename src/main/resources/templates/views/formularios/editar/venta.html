@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <th:block th:replace="components/header.html :: header"></th:block>
+  <title>Venta</title>
+</head>
+<body>
+<div class="container">
+  <nav th:replace="components/navbar.html :: nav_bar"></nav>
+</div>
+<div class="container">
+  <th:block th:replace="components/toast.html :: toast"></th:block>
+  <div class="card mt-3">
+    <th:block th:replace="components/formulario.html :: titulo('Venta')"></th:block>
+        <div class="card-body">
+          <form th:action="@{/venta/formulario/guardar(retorno=${retorno})}" th:object="${object}" method="post" enctype="multipart/form-data">
+            <div class="row g-3">
+              <input type="hidden" th:field="*{venta.id}">
+              <div class="form-group col-md-2">
+                <label for="fecha">Fecha: </label>
+                <th:block th:replace="components/formulario.html :: input_date_time('fecha', *{venta.fecha})"></th:block>
+              </div>
+              <div class="form-group col-md-3">
+                <label for="cliente">Cliente: </label>
+                <div class="input-group has-validation">
+                  <select class="form-control" id="cliente" th:field="*{venta.cliente}" >
+                    <option th:value="null">Ninguno</option>
+                    <option th:each="e: ${clientes}" th:value="${e.id}" th:text="${e.nombre}" th:selected="${value!=null && value.id==e.id}"></option>
+                  </select>
+                </div>
+              </div>
+              <div class="form-group col-md-2">
+                <label>Importe Pagado: </label>
+                <div class="input-group has-validation">
+                  <input type="number" step="0.01" class="form-control"  th:field="*{venta.pagado}" th:classappend="(${result!=null && result.hasFieldErrors(name)}) ? is-invalid : default " required>
+                  <div th:replace="components/formulario.html :: error_result"></div>
+                </div>
+              </div>
+              <div class="form-group col-md-2">
+                <label>Importe Total: </label>
+                <input type="number" class="form-control"  th:field="*{venta.importe}" readonly />
+              </div>
+              <input type="hidden" th:field="*{venta.estadoVenta}">
+            </div>
+            <h4 style="text-align: center;" class="mt-3">Detalle de Venta</h4>
+            <table th:class="${table}">
+              <thead th:class="${table_head}">
+              <tr>
+                <th>Articulo</th>
+                <th>Precio</th>
+                <th>Cantidad</th>
+                <th>SubTotal</th>
+                <th></th>
+              </tr>
+              </thead>
+              <tr th:each="detalle, stat: *{detalles}">
+                <input type="hidden" th:field="*{detalles[__${stat.index}__].id}">
+                <td style="width: 30%">
+                  <input type="hidden" th:field="*{detalles[__${stat.index}__].articulo.id}">
+                  <input type="text" class="form-control" th:field="*{detalles[__${stat.index}__].articulo.nombre}" readonly>
+                </td>
+                <td style="width: 7%">
+                  <input type="number" class="form-control" id="cantidad" th:field="*{detalles[__${stat.index}__].precioUnitario}" readonly />
+                </td>
+                <td style="width: 10%">
+                  <input type="number" class="form-control" th:field="*{detalles[__${stat.index}__].cantidad}" th:onchange="getSubTotal([[*{detalles[__${stat.index}__].precioUnitario}]],this.value,[[${stat.index}]], [[*{detalles.size}]])">
+                </td>
+                <td style="width: 19%">
+                  <input type="text" class="form-control" th:field="*{detalles[__${stat.index}__].subTotal}" readonly>
+                </td>
+                <td style="width: 5%">
+                  <a th:replace="components/formulario.html :: eliminar(${'#'})"></a>
+                </td>
+              </tr>
+            </table>
+            <div class="row m-3">
+              <th:block th:replace="components/botones.html :: volver"></th:block>
+              <div class="col-md-4 mt-4">
+                <button class="btn btn-success" type="submit" style="width:100%" >Guardar<i class='fas fa-save'> </i></button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+
+</div>
+
+<script th:inline="javascript">
+    function getSubTotal(precio, cantidad, indice, size){
+        let subTotal = +((cantidad*precio).toFixed(2));
+        document.getElementById('detalles'+indice+'.cantidad').value = +cantidad;
+        document.getElementById('detalles'+indice+'.subTotal').value = subTotal;
+        let importe=0;
+        for(let i=0; i<size; i++){
+            importe+=(+document.getElementById('detalles'+i+'.subTotal').value);
+        }
+        importe = (+importe.toFixed(2));
+        document.getElementById('venta.importe').value = importe;
+
+    }
+</script>
+<th:block th:replace="components/scripts.html :: script_fragment"></th:block>
+<th:block th:replace="components/toast.html :: toast"></th:block>
+</body>
+
+</html>

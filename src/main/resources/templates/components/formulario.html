@@ -1,0 +1,59 @@
+<th:block xmlns:th="http://www.w3.org/1999/xhtml">
+  <th:block th:fragment="titulo(title)" >
+    <h3 class="card-header text-center" th:text="${title}"></h3>
+  </th:block>
+
+  <a th:fragment="formulario_eliminar" id="delete" title="eliminar" th:href="@{/{entity}/formulario/borrar(id = ${object.id}, retorno=${retorno}, entity=${nameEntity}, nameEntity=${nameEntity})}"><i class='fas fa-trash' style="font-size:24px;color:red"></i></a>
+
+  <a th:fragment="eliminar(href)" id="delete" title="eliminar" th:href="@{${href}}"><i class='fas fa-trash' style="font-size:24px;color:red"></i></a>
+
+  <td th:fragment="formulario_boton_agregar" th:with="texto= ((${object.id==0}) ? 'Agregar' : 'Actualizar')">
+    <button class="btn btn-success" type="submit" style="width:100%" th:text="${texto}"></button>
+  </td>
+
+  <a th:fragment="guardar" th:href="@{/{entity}/formulario/guardar ( retorno=${retorno}, entity=${nameEntity}, nameEntity=${nameEntity})}" class="btn btn-outline-success" style="width:100%;">Guardar Cambios <i class='fas fa-save'></i></a>
+
+
+
+  <div th:fragment="selectEnum(name, value,list, _null)" class="input-group has-validation">
+    <select class="form-control" th:name="${name}" th:value="${value}">
+      <option th:if="${_null}" th:value="null">Ninguno</option>
+      <option th:each="e: ${list}" th:value="${e}" th:text="${e.name()}" th:selected="${value!=null && value.ordinal==e.ordinal}"></option>
+    </select>
+  </div>
+
+  <div th:fragment="selectList(name,value, list, _null)" class="input-group has-validation">
+    <select class="form-control" th:name="${name}" th:value="${value}" >
+      <option th:if="${_null}" th:value="null">Ninguno</option>
+      <option th:each="e: ${list}" th:value="${e.id}" th:text="${e.nombre}" th:selected="${value!=null && value.id==e.id}"></option>
+    </select>
+  </div>
+
+  <div th:fragment="input_number_float(name, value)" class="input-group has-validation">
+    <input type="number" step="0.01" class="form-control" th:name="${name}" th:value="${value}" th:classappend="(${result!=null && result.hasFieldErrors(name)}) ? is-invalid : default " th:placeholder="'Escribe el '+${name}" required>
+    <div th:replace="components/formulario.html :: error_result"></div>
+  </div>
+
+  <div th:fragment="input_number_int(name, value)" class="input-group has-validation">
+    <input type="number" class="form-control" th:name="${name}" th:value="${value}" th:classappend="(${result!=null && result.hasFieldErrors(name)}) ? is-invalid : default " th:placeholder="'Escribe el '+${name}" required>
+    <div th:replace="components/formulario.html :: error_result"></div>
+  </div>
+
+  <div th:fragment="input_text(name, value)" class="input-group has-validation">
+    <input type="text" class="form-control"  th:name="${name}" th:value="${value}" th:classappend="(${result!=null && result.hasFieldErrors(name)}) ? is-invalid : default " th:placeholder="'Escribe el '+${name}" required>
+    <div th:replace="components/formulario.html :: error_result"></div>
+  </div>
+
+  <div th:fragment="input_date(name, value)" class="input-group has-validation">
+    <input type="date" class="form-control"  th:name="${name}" th:value="${value}" th:classappend="(${result!=null && result.hasFieldErrors(name)}) ? is-invalid : default " required>
+    <div th:replace="components/formulario.html :: error_result"></div>
+  </div>
+
+  <div th:fragment="input_date_time(name, value)" class="input-group has-validation">
+    <input type="datetime-local" class="form-control"  th:name="${name}" th:value="${value}" th:classappend="(${result!=null && result.hasFieldErrors(name)}) ? is-invalid : default " required>
+    <div th:replace="components/formulario.html :: error_result"></div>
+  </div>
+
+
+  <div th:fragment="error_result" th:if="${result!=null && result.hasFieldErrors(name)}" class="invalid-tooltip" th:text="${result.getFieldError(name).getDefaultMessage()}"></div>
+</th:block>

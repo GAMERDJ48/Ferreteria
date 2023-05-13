@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <th:block th:replace="components/header.html :: header"></th:block>
+  <title>Articulo</title>
+  <style>
+        *,*:after, *:before{
+            margin: 0;
+            padding: 0;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+        #contenedor_carga{
+            height: 100%;
+            width: 100%;
+            position: relative;
+            -webkit-transition: all 1s ease;
+            -o-transition: all 1s ease;
+            transition: all 1s ease;
+            z-index: 10000;
+        }
+        #carga{
+            border: 15px solid #ccc;
+            border-top-color: #F4266A;
+            border-top-style: groove;
+            height: 100px;
+            width: 100px;
+            border-radius: 100%;
+            margin: 0 auto;
+            -webkit-animation: girar 1.5s linear infinite infinite;
+            -o-animation: girar 1.5s linear infinite;
+            animation: girar 1.5s linear infinite;
+       }
+
+       @keyframes girar{
+        from{transform: rotate(0deg);}
+        to{transform: rotate(360deg);}
+       }
+    </style>
+</head>
+
+<body>
+<nav th:replace="components/navbar.html :: nav_bar"></nav>
+<div class="container mt-3">
+  <div class="card">
+    <h3 class="card-header text-center">Subir archivo de Excel</h3>
+    <div class="card-body">
+      <form th:action="@{/excel}" method="post" enctype="multipart/form-data">
+        <div class="row g-3">
+          <div th:if="${proveedores!=null}" class="form-group col-md-2">
+            <label for="proveedor">Proveedor: </label>
+            <select class="form-control" id="proveedor" name="proveedor">
+                <option th:each="proveedor: ${proveedores}" th:value="${proveedor}" th:text="${proveedor.name()}"></option>
+            </select>
+          </div>
+          <div class="form-group col-md-7">
+            <label for="archivo">Archivo: </label>
+            <input type="file" class="form-control" id="archivo" name="archivo">
+          </div>
+          <div class="form-group col-md-3">
+            <button type="submit" class="btn btn-outline-success mt-3" style="width:100%;">Subir<i class="fa fa-cloud-upload"></i></button>
+          </div>
+        </div>
+        <div class="row" th:if="${mensaje!=null}" >
+          <p style="color: red; font-size: 24px" th:text="${mensaje}"></p>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div th:if="${cargando!=null && cargando}" id="contenedor_carga" class="mt-5">
+  <div style="text-align:center">Cargando....</div>
+  <div id="carga">
+
+  </div>
+</div>
+
+<div class="container mt-5">
+  <div class="card">
+    <h3 class="card-header text-center">Historial</h3>
+    <div class="card-body">
+      <div class="row g-3">
+          <table th:class="${table}">
+            <thead th:class="${table_head}">
+                <tr>
+                  <th>Nro</th>
+                  <th>Nombre Archivo</th>
+                  <th>Fecha</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="excel: ${excels}">
+                  <td th:text="${excel.id}"></td>
+                  <td th:text="${excel.nombre}"></td>
+                  <td th:text="${excel.fecha}"></td>
+                </tr>
+            </tbody>
+          </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<th:block th:replace="components/scripts.html :: script_fragment"></th:block>
+<th:block th:replace="components/toast.html :: toast"></th:block>
+
+</body>
+
+</html>

@@ -1,0 +1,134 @@
+<th:block th:fragment="boton_filtrar">
+    <div class="col-1 ps-0 pe-0">
+        <button id="filtrar" style="width:100%" onclick="cambiar()" class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#formulario" aria-expanded="false" aria-controls="formulario">
+            Filtrar <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-square-fill" viewBox="0 0 16 16">
+            <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5a.5.5 0 0 1 1 0z"/>
+        </svg>
+        </button>
+    </div>
+    <script th:inline="javascript">
+                const filtrarBtn = document.getElementById('filtrar')
+                let condicion
+                function cambiar(){
+                    if(condicion==1){
+                        condicion=0
+                    }else{
+                        condicion=1
+                    }
+                    if(condicion==1){
+                        filtrarBtn.innerHTML = 'Filtrar <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-square-fill" viewBox="0 0 16 16"><path d="M2 16a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2zm6.5-4.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 1 0z"/></svg>'
+                    }else{
+                        filtrarBtn.innerHTML = 'Filtrar <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-down-square-fill" viewBox="0 0 16 16"> <path d="M2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2zm6.5 4.5v5.793l2.146-2.147a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 1 1 .708-.708L7.5 10.293V4.5a.5.5 0 0 1 1 0z"/> </svg>'
+                    }
+                }
+       </script>
+</th:block>
+
+<th:block th:fragment="buscador">
+    <div class="col-5 ps-0 pe-0" style="margin-left: 0px;">
+        <div class="input-group has-validation">
+            <input type="text" class="form-control" id="nombre" placeholder="Buscar por nombre" th:field="*{nombre}">
+            <button class="btn btn-outline-dark" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+            </svg></button>
+        </div>
+    </div>
+</th:block>
+
+<th:block th:fragment="buscador_sinfiltro">
+    <div class="col-5 ps-0 pe-0" style="margin-left: 0px;">
+        <div class="input-group has-validation">
+            <input type="text" class="form-control" id="nombre"  placeholder="Buscar por nombre" name="nombre">
+            <button class="btn btn-outline-dark" type="submit"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+            </svg></button>
+        </div>
+    </div>
+</th:block>
+
+
+
+
+<th:block th:fragment="parte_inicial_filtro_plegable">
+    <div class="collapse" id="formulario">
+        <div class="card">
+            <div class="card-body">
+                <div class="row g-3">
+</th:block>
+<th:block th:fragment="parte_final_filtro_plegable">
+                    <div class="col-12">
+                        <button class="btn btn-outline-success position-relative" type="submit" style="width:20%" title="Buscar">Buscar</button>
+                        <a class="btn btn-outline-primary position-relative" style="width:20%" th:href="${#httpServletRequest.requestURI}" title="Muestra sin filtros">Mostrar Todos</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</th:block>
+
+
+<!--
+Campos de formularios
+-->
+
+
+
+<div th:fragment="selectEnum(name, label,value,list)" class="input-group has-validation">
+    <label th:for="${name}" class="form-label" th:text="${label+': '}"></label>
+    <div class="input-group has-validation">
+        <select class="form-control" th:id="${name}" th:name="${name}" th:value="${value}">
+            <option th:value="null">Selecciona un <span th:text="${label}"></span>..</option>
+            <option th:each="e: ${list}" th:value="${e}" th:text="${e.name()}" th:selected="${value!=null && value.ordinal==e.ordinal}"></option>
+        </select>
+    </div>
+</div>
+
+<div th:fragment="selectList(name, label ,value, list)" >
+    <label th:for="${name}" class="form-label" th:text="${label+': '}"></label>
+    <div class="input-group has-validation">
+        <select class="form-control" th:id="${name}" th:name="${name}" th:value="${value}" >
+            <option th:value="null">Selecciona un <span th:text="${label}"></span>..</option>
+            <option th:each="e: ${list}" th:value="${e.id}" th:text="${e.nombre}" th:selected="${value!=null && value.id==e.id}"></option>
+        </select>
+    </div>
+</div>
+
+<div th:fragment="input_number_float(name, label ,value)" >
+    <label th:for="${name}" class="form-label" th:text="${label+': '}"></label>
+    <div class="input-group has-validation">
+        <input type="number" step="0.01" class="form-control" th:id="${name}" th:name="${name}" th:value="${value}" th:classappend="(${result!=null && result.hasFieldErrors(name)}) ? is-invalid : default " th:placeholder="'Escribe el '+${label}">
+        <div th:replace="components/formulario.html :: error_result"></div>
+    </div>
+</div>
+
+<div th:fragment="input_number_int(name, label ,value)">
+    <label th:for="${name}" class="form-label" th:text="${label+': '}"></label>
+    <div class="input-group has-validation">
+        <input type="number" class="form-control" th:id="${name}" th:name="${name}" th:value="${value}" th:classappend="(${result!=null && result.hasFieldErrors(name)}) ? is-invalid : default " th:placeholder="'Escribe el '+${label}">
+        <div th:replace="components/formulario.html :: error_result"></div>
+    </div>
+</div>
+
+<div th:fragment="input_text(name,label, value)" >
+    <label th:for="${name}" class="form-label" th:text="${label+': '}"></label>
+    <div class="input-group has-validation">
+        <input type="text" class="form-control" th:id="${name}" th:name="${name}" th:value="${value}" th:classappend="(${result!=null && result.hasFieldErrors(name)}) ? is-invalid : default " th:placeholder="'Escribe el '+${label}">
+        <div th:replace="components/formulario.html :: error_result"></div>
+    </div>
+</div>
+
+<div th:fragment="input_date(name,label, value)" >
+    <label th:for="${name}" class="form-label" th:text="${label+': '}"></label>
+    <div class="input-group has-validation">
+        <input type="date" class="form-control" th:id="${name}" th:name="${name}" th:value="${value}" th:classappend="(${result!=null && result.hasFieldErrors(name)}) ? is-invalid : default ">
+        <div th:replace="components/formulario.html :: error_result"></div>
+    </div>
+</div>
+
+<div th:fragment="input_date_time(name,label, value)" >
+    <label th:for="${name}" class="form-label" th:text="${label+': '}"></label>
+    <div class="input-group has-validation">
+        <input type="datetime-local" class="form-control" th:id="${name}" th:name="${name}" th:value="${value}" th:classappend="(${result!=null && result.hasFieldErrors(name)}) ? is-invalid : default " >
+        <div th:replace="components/formulario.html :: error_result"></div>
+    </div>
+</div>

@@ -1,0 +1,41 @@
+<nav th:fragment="pagination(nameQuerry, querry)" th:if="${listPage!=null && listPage.totalPages > 0}" aria-label="Page navigation example">
+    <ul class="pagination justify-content-center" th:with="url=${#httpServletRequest.requestURI+'?'+nameQuerry+'='+querry+((filtro!=null) ? ('&'+filtro.toQuerryString()) : '')}">
+        <li class="page-item" th:classappend="${(listPage.number)==0} ? disabled">
+            <a class="page-link" th:href="@{${url}(page=${listPage.number})}" aria-label="Previous">
+                <span aria-hidden="true">&laquo;</span>
+            </a>
+        </li>
+        <th:block th:if="${valor>1}" >
+            <li  class="page-item">
+                <a class="page-link"  th:href="@{${url}(page=1)}" aria-label="Previous">
+                    1
+                </a>
+            </li>
+            <li class="page-item">
+                <p class="page-link">...</p>
+            </li>
+        </th:block>
+        <th:block th:each="pageNumber,stat : ${pageNumbers}">
+            <li class="page-item" th:classappend="${pageNumber==listPage.number + 1} ? active">
+                <a class="page-link"  th:href="@{${url}(page=${pageNumber})}"
+                   th:text="${pageNumber}"
+                ></a>
+            </li>
+        </th:block>
+        <th:block th:if="${valor==1 || valor==3}">
+            <li class="page-item">
+                <p class="page-link">...</p>
+            </li>
+            <li  class="page-item">
+                <a class="page-link" th:href="@{${url}(page=${pageFinalNumber})}">
+                    <span aria-hidden="true" th:text="${pageFinalNumber}"></span>
+                </a>
+            </li>
+        </th:block>
+        <li class="page-item" th:classappend="${(listPage.number+1)==pageFinalNumber} ? disabled">
+            <a class="page-link"  th:href="@{${url}(page=${listPage.number + 2})}"  aria-label="Next">
+                <span aria-hidden="true">&raquo;</span>
+            </a>
+        </li>
+    </ul>
+</nav>

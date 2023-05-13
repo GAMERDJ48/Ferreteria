@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <th:block th:replace="components/header.html :: header"></th:block>
+  <title>Venta</title>
+</head>
+<body>
+<nav th:replace="components/navbar.html :: nav_bar"></nav>
+<div class="container">
+
+  <th:block th:replace="components/header.html :: titulo('Venta')"></th:block>
+
+  <form  th:action="@{/{entity}/listado(entity=${nameEntity},nameEntity=${nameEntity})}" th:object="${filtro}">
+    <div class="row g-3">
+      <th:block th:replace="components/filter.html :: boton_filtrar"></th:block>
+    </div>
+
+    <th:block th:replace="components/filter.html :: parte_inicial_filtro_plegable"></th:block>
+    <th:block th:fragment="filtro">
+      <div class="col-md-3">
+        <div th:replace="components/filter.html :: selectList('cliente','Cliente', *{cliente},${clientes})"></div>
+      </div>
+      <div class="col-md-3">
+        <div th:replace="components/filter.html :: selectEnum('estadoVenta', 'Estado',*{estadoVenta},${estados})"></div>
+      </div>
+      <div class="col-md-3">
+        <div th:replace="components/filter.html :: input_date_time('fechaDesde','Fecha Desde', *{fechaDesde})"></div>
+      </div>
+      <div class="col-md-3">
+        <div th:replace="components/filter.html :: input_date_time('fechaHasta','Fecha Hasta', *{fechaHasta})"></div>
+      </div>
+    </th:block>
+    <th:block th:replace="components/filter.html :: parte_final_filtro_plegable"></th:block>
+
+  </form>
+
+
+  <th:block th:replace="components/listado.html :: ausencia_elementos"></th:block>
+  <table th:if="${entities!=null && entities.size()>0}" th:class="${table}">
+    <thead th:class="${table_head}">
+    <tr>
+      <th>Fecha</th>
+      <th>Cliente</th>
+      <th>Importe</th>
+      <th>Estado</th>
+      <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="object: ${entities}">
+      <td th:text="${object.getFechaString()}"></td>
+      <td th:text="${object.cliente}"></td>
+      <td th:text="${'$ '+object.importe}"></td>
+      <td th:text="${object.estadoVenta}"></td>
+      <td>
+        <th:block th:replace="components/detalle.html :: boton"></th:block>
+        <th:block th:replace="components/botones.html :: crud_basic"></th:block>
+      </td>
+      <div th:replace="components/botones.html :: modal_eliminar"></div>
+    </tr>
+    </tbody>
+  </table>
+
+  <nav th:replace="components/pagination.html :: pagination('', '')"></nav>
+</div>
+
+<th:block th:replace="components/scripts.html :: script_fragment"></th:block>
+<th:block th:replace="components/toast.html :: toast"></th:block>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<nav th:fragment="nav_bar" class="navbar navbar-dark navbar-expand-lg bg-dark" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="container">
+        <a class="navbar-brand" th:href="@{/inicio(modoVenta=${false})}">
+            Ferreteria
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" th:href="@{/inicio(modoVenta=${false})}" style="font-size:large;">Inicio</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        CRUD
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" th:href="@{/articulo/listado}">Articulos</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" th:href="@{/tipoarticulo/listado}">Tipos de Articulos</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" th:href="@{/cliente/listado}">Clientes</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/venta/listado}" style="font-size:large;">Ventas</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/venta/deudor}" style="font-size:large;">Deudores</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/excel}" style="font-size:large;">Subir Archivo</a>
+                </li>
+
+                <!--
+                <li class="nav-item position-absolute end-0 me-3">
+                    <div class="row" th:with="dolar=${T(com.ferreteria.ferreteria.services.DolarService).getDolar()}">
+                        <th:block th:if="${dolar!=null}">
+                            <div class="col-3 mt-1">
+                                <label style="color: white; font-size: 17px">DOLAR: </label>
+                            </div>
+                            <div class="col-4">
+                                <input class="form-control" type="text" th:value="${dolar}" disabled>
+                            </div>
+                        </th:block>
+                    </div>
+                </li>
+                -->
+            </ul>
+        </div>
+    </div>
+</nav>

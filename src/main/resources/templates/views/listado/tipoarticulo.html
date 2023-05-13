@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <th:block th:replace="components/header.html :: header"></th:block>
+    <title>Tipo Articulo</title>
+</head>
+<body>
+<nav th:replace="components/navbar.html :: nav_bar"></nav>
+<div class="container">
+
+    <th:block th:replace="components/header.html :: titulo('Tipo de Articulo')"></th:block>
+    <form th:action="@{${#httpServletRequest.requestURI}}">
+        <div class="row g-3">
+            <th:block th:replace="components/filter.html :: buscador_sinfiltro"></th:block>
+            <th:block th:replace="components/botones.html :: nuevo"></th:block>
+        </div>
+    </form>
+
+
+    <th:block th:replace="components/listado.html :: ausencia_elementos"></th:block>
+    <table th:if="${entities!=null && entities.size()>0}" th:class="${table}">
+        <thead th:class="${table_head}">
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Acciones</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="object: ${entities}" th:classappend="(${object.inactive==false}) ? ${table_row} : ${table_row_low}">
+            <td th:text="${object.id}"></td>
+            <td th:text="${object.nombre}"></td>
+            <td>
+                <th:block th:replace="components/botones.html :: crud"></th:block>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <nav th:replace="components/pagination.html :: pagination('', '')"></nav>
+</div>
+
+<th:block th:replace="components/scripts.html :: script_fragment"></th:block>
+<th:block th:replace="components/toast.html :: toast"></th:block>
+</body>
+</html>
